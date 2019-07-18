@@ -1,22 +1,26 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, } from "react";
 import "./App.css";
 import { Table, Button, Icon } from "semantic-ui-react";
 import { UsersConsumer } from "./providers/UsersProvider";
 import AddUserForm from "./AddUserForm";
-const renderRows = users =>
-  users.map(user => (
+const renderRows = (users, editUser, removeUser) => {
+  return users.map(user => (
     <>
       <Table.Row key={user.id}>
         <Table.Cell>{user.name}</Table.Cell>
         <Table.Cell>{user.phone}</Table.Cell>
         <Table.Cell>{user.email}</Table.Cell>
-        <Button.Group>
-          <Button color="blue"><Icon name="edit" /></Button>
-          <Button color="red"><Icon name="delete" /></Button>
-        </Button.Group>
+        <Table.Cell>
+          <Button.Group>
+            <Button color="blue"><Icon name="edit" onClick={ () => editUser(user) }/></Button>
+            <Button color="red"><Icon name="delete" onClick={ () => removeUser(user.id) } /></Button>
+          </Button.Group>
+        </Table.Cell>
       </Table.Row>
     </>
   ));
+
+}
 const App = props => (
   <UsersConsumer>
     {value => (
@@ -30,9 +34,10 @@ const App = props => (
               <Table.HeaderCell>Edit / Delete</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-          <Table.Body>{renderRows(value.users)}</Table.Body>
+          <Table.Body>{renderRows(value.users, value.editUser, value.removeUser)}</Table.Body>
         </Table>
         <AddUserForm />
+        
       </Fragment>
     )}
   </UsersConsumer>

@@ -14,11 +14,12 @@ class UsersProvider extends React.Component {
     debugger
     this.setState({ users: [...this.state.users, user], })
   }
-  editUser = () => {
-    debugger
+  editUser = (user) => {
+    // TODO make this populate a form
   }
-  removeUser = (user) => {
-    debugger
+  removeUser = (id) => {
+    const filteredUsers = this.state.users.filter( user => user.id !== id)
+    this.setState({users: filteredUsers, })
   }
   render() {
     return (
