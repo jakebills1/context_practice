@@ -1,8 +1,9 @@
-import React, { Fragment, useState, } from "react";
+import React, { Fragment, } from "react";
 import "./App.css";
 import { Table, Button, Icon } from "semantic-ui-react";
 import { UsersConsumer } from "./providers/UsersProvider";
 import AddUserForm from "./AddUserForm";
+import EditForm from "./EditForm";
 const renderRows = (users, editUser, removeUser) => {
   return users.map(user => (
     <>
@@ -12,7 +13,7 @@ const renderRows = (users, editUser, removeUser) => {
         <Table.Cell>{user.email}</Table.Cell>
         <Table.Cell>
           <Button.Group>
-            <Button color="blue"><Icon name="edit" onClick={ () => editUser(user) }/></Button>
+            <Button color="blue"><Icon name="edit" onClick={ () => editUser(user) } /></Button>
             <Button color="red"><Icon name="delete" onClick={ () => removeUser(user.id) } /></Button>
           </Button.Group>
         </Table.Cell>
@@ -21,26 +22,30 @@ const renderRows = (users, editUser, removeUser) => {
   ));
 
 }
-const App = props => (
-  <UsersConsumer>
-    {value => (
-      <Fragment>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Name</Table.HeaderCell>
-              <Table.HeaderCell>Phone</Table.HeaderCell>
-              <Table.HeaderCell>Email</Table.HeaderCell>
-              <Table.HeaderCell>Edit / Delete</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>{renderRows(value.users, value.editUser, value.removeUser)}</Table.Body>
-        </Table>
-        <AddUserForm />
-        
-      </Fragment>
-    )}
-  </UsersConsumer>
-);
+const App = props => 
+{
+  return (
+    <UsersConsumer>
+      {value => (
+        <Fragment>
+          <Table>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Name</Table.HeaderCell>
+                <Table.HeaderCell>Phone</Table.HeaderCell>
+                <Table.HeaderCell>Email</Table.HeaderCell>
+                <Table.HeaderCell>Edit / Delete</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>{renderRows(value.users, value.editUser, value.removeUser)}</Table.Body>
+          </Table>
+          <AddUserForm />
+          <EditForm /> 
+        </Fragment>
+      )}
+    </UsersConsumer>
+  );
+
+}
 
 export default App;
